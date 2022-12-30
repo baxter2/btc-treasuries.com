@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_30_015316) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_30_015535) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,6 +25,20 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_30_015316) do
     t.decimal "total_btc", precision: 16, scale: 8
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string "transactionable_type", null: false
+    t.bigint "transactionable_id", null: false
+    t.datetime "date"
+    t.text "source_urls", default: [], array: true
+    t.text "tweet_urls", default: [], array: true
+    t.string "explanation"
+    t.decimal "btc", precision: 16, scale: 8
+    t.decimal "total_btc_to_date", precision: 16, scale: 8
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["transactionable_type", "transactionable_id"], name: "index_transactions_on_transactionable"
   end
 
 end
