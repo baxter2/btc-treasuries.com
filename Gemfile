@@ -65,6 +65,7 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+  gem 'pry', '~> 0.14.1'
 end
 
 group :test do
