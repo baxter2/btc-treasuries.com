@@ -1,0 +1,2 @@
+class PublicCompany < Entity
+end

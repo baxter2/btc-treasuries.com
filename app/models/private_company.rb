@@ -1,0 +1,2 @@
+class PrivateCompany < Entity
+end
