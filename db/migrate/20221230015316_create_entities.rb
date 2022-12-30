@@ -8,7 +8,7 @@ class CreateEntities < ActiveRecord::Migration[7.0]
       t.string :alpha3
       t.string :short_ticker
       t.string :long_ticker
-      t.decimal :total_btc
+      t.decimal :total_btc, precision: 16, scale: 8
 
       t.timestamps
     end
