@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  transactionable: one
+  transactionable_type: Transactionable
+  date: 2022-12-30 12:55:35
+  source_urls: MyText
+  tweet_urls: MyText
+  explanation: MyString
+  btc: 9.99
+  total_btc_to_date: 9.99
+
+two:
+  transactionable: two
+  transactionable_type: Transactionable
+  date: 2022-12-30 12:55:35
+  source_urls: MyText
+  tweet_urls: MyText
+  explanation: MyString
+  btc: 9.99
+  total_btc_to_date: 9.99
