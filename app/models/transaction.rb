@@ -1,4 +1,6 @@
 class Transaction < ApplicationRecord
+  attribute :btc, :float
+
   belongs_to :transactionable, polymorphic: true
 
   after_save do |transaction|
