@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
+  resources :treasuries, only: [:index]
+  namespace :treasuries do
+    resources :public_companies, only: [:index, :show], param: :permalink
+    resources :countries, only: [:index, :show], param: :permalink
+    resources :private_companies, only: [:index, :show], param: :permalink
+  end
 end
