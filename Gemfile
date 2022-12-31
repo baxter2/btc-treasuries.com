@@ -74,3 +74,6 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
+# Frontend
+gem 'inline_svg', '~> 1.8'
