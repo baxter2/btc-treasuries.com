@@ -6,8 +6,8 @@
 
 <!-- 852px This is 1/3 of an Imac 27inch screen which is my obssesion -->
 <!-- max-w-4-xl == 896px -->
-<div class="h-80 max-w-4xl mx-auto flex flex-row">
-  <div class="basis-2/5  overflow-scroll # m-2 border-dashed border-2 rounded-lg border-gray-200">
+<div class="h-screen max-w-4xl mx-auto flex flex-row">
+  <div class="h-5/6 basis-2/5  overflow-scroll # m-2 border-dashed border-2 rounded-lg border-gray-200">
     <table class="min-w-full mx-auto divide-y">
       <thead class="bg-gray-100">
         <tr>
@@ -19,13 +19,12 @@
 
       <tbody class="divide-y">
         <% entities.each do |country| %>
-        <% 4.times do |number| %>
           <tr>
             <td class="px-3 py-4 text-sm text-gray-500">
               <div class="flex items-center">
                 <div class="h-10 w-10 flex-shrink-0">
                  <a href="#">
-                    <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                   <%= inline_svg_tag "svg/countries/#{country.alpha3}.svg", class: "h-10 w-10 rounded-lg" %>
                   </a>
                 </div>
                 <div class="ml-4">
@@ -50,12 +49,24 @@
             </td>
           </tr>
         <% end %>
-        <% end %>
       </tbody>
     </table>
   </div>
 
-  <div class="basis-3/5 # m-2 border-dashed border-2 rounded-lg border-gray-200">
-    ChartJS
+  <div class="flex flex-col basis-3/5 # m-2 border-dashed border-2 rounded-lg border-gray-200">
+    <div class="h-72 # m-2 border-dashed border-2 rounded-lg border-gray-200">
+      <div
+        data-controller="chart"
+        data-chart-data-value="<%= chart_data.to_json %>"
+        data-chart-label-value="<%= label %>"
+        class="mx-auto"
+      >
+        <canvas id="myChart"></canvas>
+      </div>
+    </div>
+
+    <div class="h-80 # m-2 border-dashed border-2 rounded-lg border-gray-200">
+      Stats
+    </div>
   </div>
 </div>
