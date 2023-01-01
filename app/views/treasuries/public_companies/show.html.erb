@@ -1,7 +1,10 @@
 <div class="max-w-4xl mx-auto flex flex-row">
   <div class="mx-auto">
     <h1 class="mt-1 font-bold tracking-tight text-gray-900 text-3xl">
-      <%= @public_company.name %> <%= inline_svg_tag "svg/public-companies/#{@public_company.short_ticker.downcase}.svg", class: "pl-2 h-15 w-15 inline rounded-lg" %>
+      <%= @public_company.name %>
+      <% if File.exist?("#{Rails.root}/app/assets/images/svg/public-companies/#{@public_company.short_ticker.downcase}.svg") %>
+        <%= inline_svg_tag "svg/public-companies/#{@public_company.short_ticker.downcase}.svg", class: "pl-2 h-15 w-15 inline rounded-lg" %>
+      <% end %>
     </h1>
   </div>
 </div>
