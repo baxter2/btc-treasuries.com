@@ -13,3 +13,7 @@
  *= require_tree .
  *= require_self
  */
+
+.text-btc {
+  color: rgb(242, 169, 0);
+}
