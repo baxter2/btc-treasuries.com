@@ -14,34 +14,34 @@
       </thead>
 
       <tbody class="divide-y">
-        <% entities.each do |country| %>
+        <% entities.each do |pc| %>
           <tr>
             <td class="px-3 py-4 text-sm text-gray-500">
               <div class="flex items-center">
                 <div class="h-10 w-10 flex-shrink-0">
                  <a href="#">
-                   <%= inline_svg_tag "svg/countries/#{country.alpha3}.svg", class: "h-10 w-10 rounded-lg" %>
+                   <%= inline_svg_tag "svg/public-companies/#{pc.short_ticker.downcase}.svg", class: "h-10 w-10 rounded-lg" %>
                   </a>
                 </div>
                 <div class="ml-4">
                   <div class="font-medium text-gray-900">
-                    <%= link_to country.name, treasuries_country_path(country.permalink), class: "hover:underline" %>
+                    <%= link_to pc.name, treasuries_public_company_path(pc.permalink), class: "hover:underline" %>
                   </div>
                   <div class="text-gray-500">
-                    (<%= link_to country.alpha3, treasuries_country_path(country.permalink), class: "hover:underline" %>)
+                    (<%= link_to pc.long_ticker, treasuries_public_company_path(pc.permalink), class: "hover:underline" %>)
                   </div>
                 </div>
               </div>
             </td>
             <td class="px-3 py-4 text-sm text-gray-500">
               <div class="text-gray-900">
-                <span class="text-lg text-btc">₿</span> <%= link_to number_with_delimiter(country.total_btc.round, delimeter: ","), treasuries_country_path(country.permalink), class: "hover:underline" %>
+                <span class="text-lg text-btc">₿</span> <%= link_to number_with_delimiter(pc.total_btc.round, delimeter: ","), treasuries_public_company_path(pc.permalink), class: "hover:underline" %>
               </div>
             </td>
 
             <td class="px-3 py-4 text-sm text-gray-500">
               <div class="text-gray-900">
-              <%= number_to_percentage(country.percent_of_supply, precision: 2) %></div>
+              <%= number_to_percentage(pc.percent_of_supply, precision: 2) %></div>
             </td>
           </tr>
         <% end %>
