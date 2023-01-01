@@ -77,3 +77,4 @@ end
 
 # Frontend
 gem 'inline_svg', '~> 1.8'
+gem 'breadcrumbs_on_rails', '~> 4.1'
