@@ -15,7 +15,7 @@
         </thead>
 
         <tbody class="divide-y">
-          <% @entities.each do |entity| %>
+          <% entities.each do |entity| %>
             <tr>
               <td class="px-3 py-4 text-sm text-gray-500">
                 <div class="flex items-center">
@@ -51,7 +51,35 @@
     </div>
 
     <div class="h-60 # m-2 border-dashed border-2 rounded-lg border-gray-200">
-      Individual Stats for Country, PublicCompany, PrivateCompany
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Last 30 days</h3>
+      <dl class="mt-2 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 ">
+
+        <div class="px-4 py-2">
+          <dt class="flex text-base font-normal text-gray-900 justify-between items-baseline">
+            <div>
+              <%= link_to "Countries", treasuries_countries_path, class: "hover:underline" %>
+            </div>
+            <% if countries_btc_growth_30d.positive? %>
+              <div class="inline-flex items-baseline  px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
+                  <%= inline_svg_tag "svg/icons/arrow-up.svg" %> <span class="sr-only"> Increased by </span> <%= countries_btc_growth_30d %>%
+              </div>
+            <% else %>
+              <div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-red-100 text-red-800 md:mt-2 lg:mt-0">
+                <%= inline_svg_tag "svg/icons/arrow-down.svg" %> <span class="sr-only"> Decreased by </span> <%= countries_btc_growth_30d %>%
+              </div>
+            <% end %>
+          </dt>
+          <dd class="mt-1 flex justify-between items-baseline">
+            <div class="flex items-baseline text-2xl font-semibold">
+              <%= link_to treasuries_countries_path, class: "hover:underline hover:decoration-2" do %>
+                <span class="text-btc">₿ <span class="text-gray-500"><%= number_with_delimiter(total_btc_country.round, :delimiter => ',') %></span></span>
+                <span class="ml-2 text-sm font-medium text-gray-500"> from <%= number_with_delimiter(country_btc_before_30_days.round, :delimiter => ',') %></span>
+              <% end %>
+            </div>
+          </dd>
+        </div>
+
+      </dl>
     </div>
   </div>
 
@@ -60,11 +88,11 @@
       <div
         data-controller="multiple-line-chart"
         data-multiple-line-chart-countries-label-value="<%= "Countries" %>"
-        data-multiple-line-chart-countries-data-value="<%= @countries_chart_data.to_json %>"
-        data-multiple-line-chart-public-companies-label-value="<%= "Public Companies"%>"
-        data-multiple-line-chart-public-companies-data-value="<%= @public_companies_chart_data.to_json %>"
-        data-multiple-line-chart-private-companies-label-value="<%= "Private Companies" %>"
-        data-multiple-line-chart-private-companies-data-value="<%= @private_companies_chart_data.to_json %>"
+        data-multiple-line-chart-countries-data-value="<%= countries_chart_data.to_json %>"
+        data-multiple-line-chart-pub-companies-label-value="<%= "Public Companies"%>"
+        data-multiple-line-chart-pub-companies-data-value="<%= pub_companies_chart_data.to_json %>"
+        data-multiple-line-chart-priv-companies-label-value="<%= "Private Companies" %>"
+        data-multiple-line-chart-priv-companies-data-value="<%= priv_companies_chart_data.to_json %>"
       >
         <canvas id="lineChartTreasuries"></canvas>
       </div>
@@ -72,35 +100,14 @@
 
     <div class="h-max # m-2 border-dashed border-2 rounded-lg border-gray-200">
       <div class="p-2">
-        <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <div class="overflow-hidden rounded-lg bg-white px-4 py-3 shadow">
-            <dt class="text-sm font-medium text-gray-500">Total Purchases</dt>
-            <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
-              <%= @transactions.pluck(:btc).count(&:positive?) %>
-            </dd>
-          </div>
-
-          <div class="overflow-hidden rounded-lg bg-white px-4 py-3 shadow">
-            <dt class="text-sm font-medium text-gray-500">Total Sell Offs</dt>
-            <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
-              <%= @transactions.pluck(:btc).count(&:negative?) %>
-            </dd>
-          </div>
-
-          <div class="overflow-hidden rounded-lg bg-white px-4 py-3 shadow">
-            <dt class="text-sm font-medium text-gray-500">Total BTC</dt>
-            <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
-              <span class="text-btc">₿</span> <%= number_with_delimiter(@total_btc.round, :delimiter => ',') %>
-            </dd>
-          </div>
-
-          <div class="overflow-hidden rounded-lg bg-white px-4 py-3 shadow">
-            <dt class="text-sm font-medium text-gray-500">% of BTC Supply</dt>
-            <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
-              <%= number_to_percentage(@total_btc / Entity::TOTAL_BTC, precision: 3) %>
-            </dd>
-          </div>
-        </dl>
+        <%= render partial: "treasuries/basic_stats",
+          locals: {
+            total_purchases: local_assigns[:total_purchases],
+            total_sell_offs: local_assigns[:total_sell_offs],
+            total_btc: local_assigns[:total_btc],
+            total_percent_of_supply: local_assigns[:total_percent_of_supply]
+          }
+        %>
       </div>
     </div>
   </div>

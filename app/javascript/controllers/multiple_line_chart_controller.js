@@ -10,10 +10,10 @@ export default class extends Controller {
   static values = {
     countriesLabel: String,
     countriesData: Array,
-    publicCompaniesLabel: String,
-    publicCompaniesData: Array,
-    privateCompaniesLabel: String,
-    privateCompaniesData: Array,
+    pubCompaniesLabel: String,
+    pubCompaniesData: Array,
+    privCompaniesLabel: String,
+    privCompaniesData: Array,
   }
 
   connect() {
@@ -28,17 +28,17 @@ export default class extends Controller {
           borderWidth: 3
         },
         {
-          label: this.privateCompaniesLabelValue,
+          label: this.privCompaniesLabelValue,
           stepped: true,
-          data: this.privateCompaniesDataValue,
+          data: this.privCompaniesDataValue,
           backgroundColor: 'rgba(106, 90, 205, 0.2)',
           borderColor: 'rgba(106, 90, 205, 1)',
           borderWidth: 3
         },
         {
-          label: this.publicCompaniesLabelValue,
+          label: this.pubCompaniesLabelValue,
           stepped: true,
-          data: this.publicCompaniesDataValue,
+          data: this.pubCompaniesDataValue,
           backgroundColor: 'rgba(255, 99, 71, 0.2)',
           borderColor: 'rgba(255, 99, 71, 1)',
           borderWidth: 3
