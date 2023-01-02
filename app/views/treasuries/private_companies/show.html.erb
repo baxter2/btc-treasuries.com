@@ -64,8 +64,8 @@
   <div class="h-full flex flex-col basis-3/5 # m-2 border-dashed border-2 rounded-lg border-gray-200">
     <div class="h-max # m-2 border-dashed border-2 rounded-lg border-gray-200">
       <div
-        data-controller="chart"
-        data-chart-data-value="<%= @chart_data.to_json %>"
+        data-controller="line-chart"
+        data-line-chart-data-value="<%= @chart_data.to_json %>"
         class="mx-auto"
       >
         <canvas id="myChart"></canvas>

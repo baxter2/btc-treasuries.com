@@ -29,4 +29,13 @@ class Treasuries::ChartDataQuery
         arr << { x: date.strftime("%F"), y: sum += btc }
       end
   end
+
+  def group_by_quarter
+    sum = 0
+    transactions
+      .group_by { |t| t.date.end_of_quarter }
+      .each_with_object([]) do |(date, transactions_for_the_month), arr|
+        arr << { x: date.strftime("%F"), y: sum += transactions_for_the_month.map(&:btc).sum }
+      end
+  end
 end
