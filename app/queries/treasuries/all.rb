@@ -71,7 +71,7 @@ private
 
   def transactions_by_entity_type(type)
     entities
-      .select { |e| e.type == "Country" }
+      .select { |e| e.type == type }
       .map(&:transactions)
       .flatten
       .sort_by(&:date)
