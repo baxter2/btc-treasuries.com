@@ -13,12 +13,20 @@ class Treasuries::Entities
     self
   end
 
+private
   def find_locals
     {
       entities: entities.sort_by(&:total_btc).reverse,
 
       label: "All #{type} Holding",
       chart_data: Treasuries::ChartDataQuery.new(transactions).group_by_individual,
+
+      transactions: transactions,
+      total_btc: total_btc,
     }
+  end
+
+  def total_btc
+    @total_btc ||= transactions.map { |t| t.btc }.compact.sum
   end
 end

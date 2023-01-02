@@ -5,47 +5,53 @@
 </div>
 
 <div class="max-w-4xl mx-auto flex flex-row">
-  <div class="h-80 basis-2/5  overflow-scroll # m-2 border-dashed border-2 rounded-lg border-gray-200">
-    <table class="min-w-full mx-auto divide-y">
-      <thead class="bg-gray-100">
-        <tr>
-          <th scope="col" class="sticky top-0 z-10 px-3 py-1 | bg-gray-50 text-sm font-semibold text-gray-900 ">Name</th>
-          <td scope="col" class="sticky top-0 z-10 text-left px-3 py-1 | bg-gray-50 text-sm font-semibold text-gray-900 ">BTC</td>
-          <td scope="col" class="sticky top-0 z-10 text-left px-3 py-1 | bg-gray-50 text-sm font-semibold text-gray-900 ">% of supply</td>
-        </tr>
-      </thead>
-
-      <tbody class="divide-y">
-        <% entities.each do |pc| %>
+  <div class="felx flex-col basis-2/5">
+    <div class="h-80 basis-2/5  overflow-scroll # m-2 border-dashed border-2 rounded-lg border-gray-200">
+      <table class="min-w-full mx-auto divide-y">
+        <thead class="bg-gray-100">
           <tr>
-            <td class="px-3 py-4 text-sm text-gray-500">
-              <div class="flex items-center">
-                <div class="h-10 w-10 flex-shrink-0">
-                 <a href="#">
-                   <%= inline_svg_tag "svg/private-companies/#{pc.permalink}.svg", class: "h-10 w-10 rounded-lg" %>
-                  </a>
-                </div>
-                <div class="ml-4">
-                  <div class="font-medium text-gray-900">
-                    <%= link_to pc.name, treasuries_private_company_path(pc.permalink), class: "hover:underline" %>
+            <th scope="col" class="sticky top-0 z-10 px-3 py-1 | bg-gray-50 text-sm font-semibold text-gray-900 ">Name</th>
+            <td scope="col" class="sticky top-0 z-10 text-left px-3 py-1 | bg-gray-50 text-sm font-semibold text-gray-900 ">BTC</td>
+            <td scope="col" class="sticky top-0 z-10 text-left px-3 py-1 | bg-gray-50 text-sm font-semibold text-gray-900 ">% of supply</td>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y">
+          <% entities.each do |pc| %>
+            <tr>
+              <td class="px-3 py-4 text-sm text-gray-500">
+                <div class="flex items-center">
+                  <div class="h-10 w-10 flex-shrink-0">
+                   <a href="#">
+                     <%= inline_svg_tag "svg/private-companies/#{pc.permalink}.svg", class: "h-10 w-10 rounded-lg" %>
+                    </a>
+                  </div>
+                  <div class="ml-4">
+                    <div class="font-medium text-gray-900">
+                      <%= link_to pc.name, treasuries_private_company_path(pc.permalink), class: "hover:underline" %>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </td>
-            <td class="px-3 py-4 text-sm text-gray-500">
-              <div class="text-gray-900">
-                <span class="text-lg text-btc">₿</span> <%= link_to number_with_delimiter(pc.total_btc.round, delimeter: ","), treasuries_public_company_path(pc.permalink), class: "hover:underline" %>
-              </div>
-            </td>
+              </td>
+              <td class="px-3 py-4 text-sm text-gray-500">
+                <div class="text-gray-900">
+                  <span class="text-lg text-btc">₿</span> <%= link_to number_with_delimiter(pc.total_btc.round, delimeter: ","), treasuries_public_company_path(pc.permalink), class: "hover:underline" %>
+                </div>
+              </td>
 
-            <td class="px-3 py-4 text-sm text-gray-500">
-              <div class="text-gray-900">
-              <%= number_to_percentage(pc.percent_of_supply, precision: 2) %></div>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+              <td class="px-3 py-4 text-sm text-gray-500">
+                <div class="text-gray-900">
+                <%= number_to_percentage(pc.percent_of_supply, precision: 2) %></div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="h-60 # m-2 border-dashed border-2 rounded-lg border-gray-200">
+      Last 30 days
+    </div>
   </div>
 
   <div class="h-full flex flex-col basis-3/5 # m-2 border-dashed border-2 rounded-lg border-gray-200">
@@ -61,7 +67,37 @@
     </div>
 
     <div class="h-max # m-2 border-dashed border-2 rounded-lg border-gray-200">
-      Stats
+      <div class="p-2">
+        <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <div class="overflow-hidden rounded-lg bg-white px-4 py-3 shadow">
+            <dt class="text-sm font-medium text-gray-500">Total Purchases</dt>
+            <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
+              <%= transactions.pluck(:btc).count(&:positive?) %>
+            </dd>
+          </div>
+
+          <div class="overflow-hidden rounded-lg bg-white px-4 py-3 shadow">
+            <dt class="text-sm font-medium text-gray-500">Total Sell Offs</dt>
+            <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
+              <%= transactions.pluck(:btc).count(&:negative?) %>
+            </dd>
+          </div>
+
+          <div class="overflow-hidden rounded-lg bg-white px-4 py-3 shadow">
+            <dt class="text-sm font-medium text-gray-500">Total BTC</dt>
+            <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
+              <span class="text-btc">₿</span> <%= number_with_delimiter(total_btc.round, :delimiter => ',') %>
+            </dd>
+          </div>
+
+          <div class="overflow-hidden rounded-lg bg-white px-4 py-3 shadow">
+            <dt class="text-sm font-medium text-gray-500">% of BTC Supply</dt>
+            <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
+              <%= number_to_percentage(total_btc / 21_000_000.0, precision: 4) %>
+            </dd>
+          </div>
+        </dl>
+      </div>
     </div>
   </div>
 </div>
