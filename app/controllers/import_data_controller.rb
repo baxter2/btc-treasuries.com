@@ -23,8 +23,8 @@ private
   end
 
   def import_data
-    Rake::Task['import:countries'].invoke
-    Rake::Task['import:private_companies'].invoke
-    Rake::Task['import:public_companies'].invoke
+    system("rake import:countries")
+    system("rake import:private_companies")
+    system("rake import:public_companies")
   end
 end
