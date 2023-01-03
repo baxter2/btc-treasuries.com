@@ -6,4 +6,6 @@ Rails.application.routes.draw do
     resources :countries, only: [:index, :show], param: :permalink
     resources :private_companies, only: [:index, :show], param: :permalink
   end
+
+  resources :import_data, only: [:create]
 end
