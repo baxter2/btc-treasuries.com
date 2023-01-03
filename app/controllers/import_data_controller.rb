@@ -4,7 +4,7 @@ class ImportDataController < ApplicationController
   # https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks
   def create
     if verify_webhook(request.headers, request.raw_post)
-      modified_files = request.raw_post["head_commit"]["modified"]
+      modified_files = JSON.parse(request.request_parameters["payload"])["head_commit"]["modified"]
 
       import_countries if modified_files.include?('countries.json')
       import_private_companies if modified_files.include?('private_companies.json')
@@ -29,14 +29,14 @@ private
   end
 
   def import_countries
-    ImportDataJob.perform_now("countries.json")
+    ImportDataJob.perform_async("countries.json")
   end
 
   def import_private_companies
-    ImportDataJob.perform_now("private_companies.json")
+    ImportDataJob.perform_async("private_companies.json")
   end
 
   def import_public_companies
-    ImportDataJob.perform_now("public_companies.json")
+    ImportDataJob.perform_async("public_companies.json")
   end
 end
