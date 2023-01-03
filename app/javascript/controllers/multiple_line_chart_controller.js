@@ -74,6 +74,11 @@ export default class extends Controller {
       }
     };
 
+    const myChartMobile = new Chart(
+      document.getElementById('lineChartTreasuriesMobile'),
+      config
+    );
+
     const myChart = new Chart(
       document.getElementById('lineChartTreasuries'),
       config

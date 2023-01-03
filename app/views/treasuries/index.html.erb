@@ -1,10 +1,26 @@
-<div class="max-w-4xl flex justify-center mt-2">
-  <h1 class="font-medium leading-tight text-3xl">List of Bitcoin Treasuries</h1>
-</div>
+<!--  Up to Medium / md = 768px -->
+<div class="block md:hidden">
+  <div class="max-w-3xl flex justify-center mt-2">
+    <h1 class="font-medium leading-tight text-2xl">List of Bitcoin Treasuries</h1>
+  </div>
 
-<div class="max-w-4xl mx-auto flex flex-row">
-  <div class="felx flex-col basis-2/5">
-    <div class="h-80 overflow-scroll # m-2 border-2 rounded-lg border-gray-200">
+  <div class="max-w-3xl mx-auto flex flex-col">
+    <div class="h-max # m-2 border-2 rounded-lg border-gray-200">
+        <div
+          data-controller="multiple-line-chart"
+          data-multiple-line-chart-countries-label-value="<%= "Countries" %>"
+          data-multiple-line-chart-countries-data-value="<%= countries_chart_data.to_json %>"
+          data-multiple-line-chart-pub-companies-label-value="<%= "Public Companies"%>"
+          data-multiple-line-chart-pub-companies-data-value="<%= pub_companies_chart_data.to_json %>"
+          data-multiple-line-chart-priv-companies-label-value="<%= "Private Companies" %>"
+          data-multiple-line-chart-priv-companies-data-value="<%= priv_companies_chart_data.to_json %>"
+        >
+          <canvas id="lineChartTreasuriesMobile"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-h-80 overflow-scroll # m-2 border-2 rounded-lg border-gray-200">
       <table class="min-w-full mx-auto divide-y">
         <thead class="bg-gray-100">
           <tr>
@@ -48,6 +64,18 @@
           <% end %>
         </tbody>
       </table>
+    </div>
+
+    <div class="h-max # m-2 border-2 rounded-lg border-gray-200">
+     <h3 class="text-center p-2 bg-gray-100 text-lg leading-6 font-medium text-gray-900">Combined Stats</h3>
+      <%= render partial: "treasuries/basic_stats",
+        locals: {
+          total_purchases: local_assigns[:total_purchases],
+          total_sell_offs: local_assigns[:total_sell_offs],
+          total_btc: local_assigns[:total_btc],
+          total_percent_of_supply: local_assigns[:total_percent_of_supply]
+        }
+      %>
     </div>
 
     <div class="h-fit # m-2 border-2 rounded-lg border-gray-200">
@@ -132,24 +160,162 @@
       </dl>
     </div>
   </div>
+</div>
 
-  <div class="h-full flex flex-col basis-3/5">
-    <div class="h-max # m-2 border-2 rounded-lg border-gray-200">
-      <div
-        data-controller="multiple-line-chart"
-        data-multiple-line-chart-countries-label-value="<%= "Countries" %>"
-        data-multiple-line-chart-countries-data-value="<%= countries_chart_data.to_json %>"
-        data-multiple-line-chart-pub-companies-label-value="<%= "Public Companies"%>"
-        data-multiple-line-chart-pub-companies-data-value="<%= pub_companies_chart_data.to_json %>"
-        data-multiple-line-chart-priv-companies-label-value="<%= "Private Companies" %>"
-        data-multiple-line-chart-priv-companies-data-value="<%= priv_companies_chart_data.to_json %>"
-      >
-        <canvas id="lineChartTreasuries"></canvas>
+<!--  Medium and above / md = 768px -->
+<div class="hidden md:block">
+  <div class="max-w-4xl flex justify-center mt-2">
+    <h1 class="font-medium leading-tight text-3xl">List of Bitcoin Treasuries</h1>
+  </div>
+
+  <div class="max-w-4xl mx-auto flex flex-row">
+    <div class="felx flex-col basis-2/5">
+      <div class="h-80 overflow-scroll # m-2 border-2 rounded-lg border-gray-200">
+        <table class="min-w-full mx-auto divide-y">
+          <thead class="bg-gray-100">
+            <tr>
+              <th scope="col" class="sticky top-0 z-10 px-3 py-1 | bg-gray-50 text-sm font-semibold text-gray-900 ">Name</th>
+              <td scope="col" class="sticky top-0 z-10 text-left px-3 py-1 | bg-gray-50 text-sm font-semibold text-gray-900 ">BTC</td>
+              <td scope="col" class="sticky top-0 z-10 text-left px-3 py-1 | bg-gray-50 text-sm font-semibold text-gray-900 ">% of supply</td>
+            </tr>
+          </thead>
+
+          <tbody class="divide-y">
+            <% entities.each do |entity| %>
+              <tr>
+                <td class="px-3 py-4 text-sm text-gray-500">
+                  <div class="flex items-center">
+                    <div class="h-10 w-10 flex-shrink-0">
+                     <a href="#">
+                       <%= entity_svg_tag(entity) %>
+                      </a>
+                    </div>
+                    <div class="ml-4">
+                      <div class="font-medium text-gray-900">
+                        <%= entity_link_or_blank(entity) %>
+                      </div>
+                      <div class="text-gray-500">
+                        <%= entity_sub_link_or_blank(entity) %>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-3 py-4 text-sm text-gray-500">
+                  <div class="text-gray-900">
+                    <span class="text-lg text-btc">₿</span> <%= link_to number_with_delimiter(entity.total_btc.round, delimeter: ","), "#", class: "hover:underline" %>
+                  </div>
+                </td>
+
+                <td class="px-3 py-4 text-sm text-gray-500">
+                  <div class="text-gray-900">
+                  <%= number_to_percentage(entity.percent_of_supply, precision: 2) %></div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="h-fit # m-2 border-2 rounded-lg border-gray-200">
+        <h3 class="text-center p-2 bg-gray-100 text-lg leading-6 font-medium text-gray-900">Last 30 days</h3>
+        <dl class="grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 ">
+
+          <div class="px-4 py-2">
+            <dt class="flex text-base font-normal text-gray-900 justify-between items-baseline">
+              <div>
+                <%= link_to "Countries", treasuries_countries_path, class: "hover:underline" %>
+              </div>
+              <% if countries_btc_growth_30d.positive? %>
+                <div class="inline-flex items-baseline  px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
+                    <%= inline_svg_tag "svg/icons/arrow-up.svg" %> <span class="sr-only"> Increased by </span> <%= countries_btc_growth_30d %>%
+                </div>
+              <% else %>
+                <div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-red-100 text-red-800 md:mt-2 lg:mt-0">
+                  <%= inline_svg_tag "svg/icons/arrow-down.svg" %> <span class="sr-only"> Decreased by </span> <%= countries_btc_growth_30d %>%
+                </div>
+              <% end %>
+            </dt>
+            <dd class="mt-1 flex justify-between items-baseline">
+              <div class="flex items-baseline text-2xl font-semibold">
+                <%= link_to treasuries_countries_path, class: "hover:underline hover:decoration-2" do %>
+                  <span class="text-btc">₿ <span class="text-gray-500"><%= number_with_delimiter(total_btc_country.round, :delimiter => ',') %></span></span>
+                  <span class="ml-2 text-sm font-medium text-gray-500"> from <%= number_with_delimiter(country_btc_before_30d.round, :delimiter => ',') %></span>
+                <% end %>
+              </div>
+            </dd>
+          </div>
+
+          <div class="px-4 py-2">
+            <dt class="flex text-base font-normal text-gray-900 justify-between items-baseline">
+              <div>
+                <%= link_to "Private Companies", treasuries_private_companies_path, class: "hover:underline" %>
+              </div>
+              <% if priv_companies_btc_growth_30d.positive? %>
+                <div class="inline-flex items-baseline  px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
+                    <%= inline_svg_tag "svg/icons/arrow-up.svg" %> <span class="sr-only"> Increased by </span> <%= priv_companies_btc_growth_30d %>%
+                </div>
+              <% else %>
+                <div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-red-100 text-red-800 md:mt-2 lg:mt-0">
+                  <%= inline_svg_tag "svg/icons/arrow-down.svg" %> <span class="sr-only"> Decreased by </span> <%= priv_companies_btc_growth_30d %>%
+                </div>
+              <% end %>
+            </dt>
+            <dd class="mt-1 flex justify-between items-baseline">
+              <div class="flex items-baseline text-2xl font-semibold">
+                <%= link_to treasuries_private_companies_path, class: "hover:underline hover:decoration-2" do %>
+                  <span class="text-btc">₿ <span class="text-gray-500"><%= number_with_delimiter(total_btc_priv_company.round, :delimiter => ',') %></span></span>
+                  <span class="ml-2 text-sm font-medium text-gray-500"> from <%= number_with_delimiter(priv_company_btc_before_30d.round, :delimiter => ',') %></span>
+                <% end %>
+              </div>
+            </dd>
+          </div>
+
+          <div class="px-4 py-2">
+            <dt class="flex text-base font-normal text-gray-900 justify-between items-baseline">
+              <div>
+                <%= link_to "Public Companies", treasuries_public_companies_path, class: "hover:underline" %>
+              </div>
+              <% if pub_companies_btc_growth_30d.positive? %>
+                <div class="inline-flex items-baseline  px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
+                    <%= inline_svg_tag "svg/icons/arrow-up.svg" %> <span class="sr-only"> Increased by </span> <%= pub_companies_btc_growth_30d %>%
+                </div>
+              <% else %>
+                <div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-red-100 text-red-800 md:mt-2 lg:mt-0">
+                  <%= inline_svg_tag "svg/icons/arrow-down.svg" %> <span class="sr-only"> Decreased by </span> <%= pub_companies_btc_growth_30d %>%
+                </div>
+              <% end %>
+            </dt>
+            <dd class="mt-1 flex justify-between items-baseline">
+              <div class="flex items-baseline text-2xl font-semibold">
+                <%= link_to treasuries_public_companies_path, class: "hover:underline hover:decoration-2" do %>
+                  <span class="text-btc">₿ <span class="text-gray-500"><%= number_with_delimiter(total_btc_pub_company.round, :delimiter => ',') %></span></span>
+                  <span class="ml-2 text-sm font-medium text-gray-500"> from <%= number_with_delimiter(pub_company_btc_before_30d.round, :delimiter => ',') %></span>
+                <% end %>
+              </div>
+            </dd>
+          </div>
+
+        </dl>
       </div>
     </div>
 
-    <div class="h-max # m-2 border-2 rounded-lg border-gray-200">
-      <div class="p-2">
+    <div class="h-full flex flex-col basis-3/5">
+      <div class="h-max # m-2 border-2 rounded-lg border-gray-200">
+        <div
+          data-controller="multiple-line-chart"
+          data-multiple-line-chart-countries-label-value="<%= "Countries" %>"
+          data-multiple-line-chart-countries-data-value="<%= countries_chart_data.to_json %>"
+          data-multiple-line-chart-pub-companies-label-value="<%= "Public Companies"%>"
+          data-multiple-line-chart-pub-companies-data-value="<%= pub_companies_chart_data.to_json %>"
+          data-multiple-line-chart-priv-companies-label-value="<%= "Private Companies" %>"
+          data-multiple-line-chart-priv-companies-data-value="<%= priv_companies_chart_data.to_json %>"
+        >
+          <canvas id="lineChartTreasuries"></canvas>
+        </div>
+      </div>
+
+      <div class="h-max # m-2 border-2 rounded-lg border-gray-200">
+        <h3 class="text-center p-2 bg-gray-100 text-lg leading-6 font-medium text-gray-900">Combined Stats</h3>
         <%= render partial: "treasuries/basic_stats",
           locals: {
             total_purchases: local_assigns[:total_purchases],
