@@ -1,4 +1,6 @@
 class ImportDataController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   # https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks
   def create
     if !verify_webhook(request.headers, request.raw_post)
