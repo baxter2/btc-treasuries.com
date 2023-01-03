@@ -1,10 +1,10 @@
-<div class="max-w-4xl mx-auto flex flex-row">
-  <h1 class="text-center | font-medium leading-tight text-3xl">List of Bitcoin treasuries</h1>
+<div class="max-w-4xl flex justify-center mt-2">
+  <h1 class="font-medium leading-tight text-3xl">List of Bitcoin Treasuries</h1>
 </div>
 
 <div class="max-w-4xl mx-auto flex flex-row">
   <div class="felx flex-col basis-2/5">
-    <div class="h-80 overflow-scroll # m-2 border-dashed border-2 rounded-lg border-gray-200">
+    <div class="h-80 overflow-scroll # m-2 border-2 rounded-lg border-gray-200">
       <table class="min-w-full mx-auto divide-y">
         <thead class="bg-gray-100">
           <tr>
@@ -50,7 +50,7 @@
       </table>
     </div>
 
-    <div class="h-60 # m-2 border-dashed border-2 rounded-lg border-gray-200">
+    <div class="h-fit # m-2 border-2 rounded-lg border-gray-200">
       <h3 class="text-center p-2 bg-gray-100 text-lg leading-6 font-medium text-gray-900">Last 30 days</h3>
       <dl class="grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 ">
 
@@ -133,8 +133,8 @@
     </div>
   </div>
 
-  <div class="h-full flex flex-col basis-3/5 # m-2 border-dashed border-2 rounded-lg border-gray-200">
-    <div class="h-max # m-2 border-dashed border-2 rounded-lg border-gray-200">
+  <div class="h-full flex flex-col basis-3/5">
+    <div class="h-max # m-2 border-2 rounded-lg border-gray-200">
       <div
         data-controller="multiple-line-chart"
         data-multiple-line-chart-countries-label-value="<%= "Countries" %>"
@@ -148,7 +148,7 @@
       </div>
     </div>
 
-    <div class="h-max # m-2 border-dashed border-2 rounded-lg border-gray-200">
+    <div class="h-max # m-2 border-2 rounded-lg border-gray-200">
       <div class="p-2">
         <%= render partial: "treasuries/basic_stats",
           locals: {
