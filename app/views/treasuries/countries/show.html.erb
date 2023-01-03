@@ -1,4 +1,6 @@
- <%= render "layouts/breadcrumbs" %>
+<% content_for(:title) { "#{@country.name} - BTC Treasuries" } %>
+
+<%= render "layouts/breadcrumbs" %>
 
 <!--  Up to Medium / md = 768px -->
 <div class="block md:hidden">
