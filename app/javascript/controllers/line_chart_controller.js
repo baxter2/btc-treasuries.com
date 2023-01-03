@@ -51,6 +51,11 @@ export default class extends Controller {
       }
     };
 
+    const myChartMobile = new Chart(
+      document.getElementById('myChartMobile'),
+      config
+    );
+
     const myChart = new Chart(
       document.getElementById('myChart'),
       config
