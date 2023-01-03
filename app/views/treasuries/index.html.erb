@@ -52,7 +52,7 @@
 
     <div class="h-60 # m-2 border-dashed border-2 rounded-lg border-gray-200">
       <h3 class="text-center p-2 bg-gray-100 text-lg leading-6 font-medium text-gray-900">Last 30 days</h3>
-      <dl class="mt-2 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 ">
+      <dl class="grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 ">
 
         <div class="px-4 py-2">
           <dt class="flex text-base font-normal text-gray-900 justify-between items-baseline">
@@ -73,7 +73,7 @@
             <div class="flex items-baseline text-2xl font-semibold">
               <%= link_to treasuries_countries_path, class: "hover:underline hover:decoration-2" do %>
                 <span class="text-btc">₿ <span class="text-gray-500"><%= number_with_delimiter(total_btc_country.round, :delimiter => ',') %></span></span>
-                <span class="ml-2 text-sm font-medium text-gray-500"> from <%= number_with_delimiter(country_btc_before_30_days.round, :delimiter => ',') %></span>
+                <span class="ml-2 text-sm font-medium text-gray-500"> from <%= number_with_delimiter(country_btc_before_30d.round, :delimiter => ',') %></span>
               <% end %>
             </div>
           </dd>
@@ -98,7 +98,7 @@
             <div class="flex items-baseline text-2xl font-semibold">
               <%= link_to treasuries_private_companies_path, class: "hover:underline hover:decoration-2" do %>
                 <span class="text-btc">₿ <span class="text-gray-500"><%= number_with_delimiter(total_btc_priv_company.round, :delimiter => ',') %></span></span>
-                <span class="ml-2 text-sm font-medium text-gray-500"> from <%= number_with_delimiter(priv_company_btc_before_30_days.round, :delimiter => ',') %></span>
+                <span class="ml-2 text-sm font-medium text-gray-500"> from <%= number_with_delimiter(priv_company_btc_before_30d.round, :delimiter => ',') %></span>
               <% end %>
             </div>
           </dd>
@@ -109,13 +109,13 @@
             <div>
               <%= link_to "Public Companies", treasuries_public_companies_path, class: "hover:underline" %>
             </div>
-            <% if pub_companies_btc_growth_30_days.positive? %>
+            <% if pub_companies_btc_growth_30d.positive? %>
               <div class="inline-flex items-baseline  px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
-                  <%= inline_svg_tag "svg/icons/arrow-up.svg" %> <span class="sr-only"> Increased by </span> <%= pub_companies_btc_growth_30_days %>%
+                  <%= inline_svg_tag "svg/icons/arrow-up.svg" %> <span class="sr-only"> Increased by </span> <%= pub_companies_btc_growth_30d %>%
               </div>
             <% else %>
               <div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-red-100 text-red-800 md:mt-2 lg:mt-0">
-                <%= inline_svg_tag "svg/icons/arrow-down.svg" %> <span class="sr-only"> Decreased by </span> <%= pub_companies_btc_growth_30_days %>%
+                <%= inline_svg_tag "svg/icons/arrow-down.svg" %> <span class="sr-only"> Decreased by </span> <%= pub_companies_btc_growth_30d %>%
               </div>
             <% end %>
           </dt>
@@ -123,7 +123,7 @@
             <div class="flex items-baseline text-2xl font-semibold">
               <%= link_to treasuries_public_companies_path, class: "hover:underline hover:decoration-2" do %>
                 <span class="text-btc">₿ <span class="text-gray-500"><%= number_with_delimiter(total_btc_pub_company.round, :delimiter => ',') %></span></span>
-                <span class="ml-2 text-sm font-medium text-gray-500"> from <%= number_with_delimiter(pub_company_btc_before_30_days.round, :delimiter => ',') %></span>
+                <span class="ml-2 text-sm font-medium text-gray-500"> from <%= number_with_delimiter(pub_company_btc_before_30d.round, :delimiter => ',') %></span>
               <% end %>
             </div>
           </dd>

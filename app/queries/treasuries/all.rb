@@ -47,16 +47,16 @@ private
   def find_last_30_days
     {
       total_btc_country: total_btc_country,
-      country_btc_before_30_days: btc_before_30_days(countries_transactions),
+      country_btc_before_30d: btc_before_30d(countries_transactions),
       countries_btc_growth_30d: btc_growth_30d(countries_transactions),
 
       total_btc_priv_company: total_btc_priv_company,
-      priv_company_btc_before_30_days: btc_before_30_days(priv_companies_transactions),
+      priv_company_btc_before_30d: btc_before_30d(priv_companies_transactions),
       priv_companies_btc_growth_30d: btc_growth_30d(priv_companies_transactions),
 
       total_btc_pub_company: total_btc_pub_company,
-      pub_company_btc_before_30_days: btc_before_30_days(pub_companies_transactions),
-      pub_companies_btc_growth_30_days: btc_growth_30d(pub_companies_transactions),
+      pub_company_btc_before_30d: btc_before_30d(pub_companies_transactions),
+      pub_companies_btc_growth_30d: btc_growth_30d(pub_companies_transactions),
     }
   end
 
@@ -89,7 +89,7 @@ private
     Treasuries::BtcStatisticsQuery.new(transactions).total_sell_offs
   end
 
-  def btc_before_30_days(entities_transactions)
+  def btc_before_30d(entities_transactions)
     Treasuries::BtcStatisticsQuery.new(entities_transactions).btc_before(num_days: 30)
   end
 
