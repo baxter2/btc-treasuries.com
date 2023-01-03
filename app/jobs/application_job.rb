@@ -1,3 +1,3 @@
-class ApplicationJob < ActiveJob::Base
+class ApplicationJob
   include Sidekiq::Worker
 end
