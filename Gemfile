@@ -75,6 +75,9 @@ group :test do
   gem "webdrivers"
 end
 
+# Background jobs
+gem 'sidekiq', '~> 7.0', '>= 7.0.2'
+
 # Frontend
 gem 'inline_svg', '~> 1.8'
 gem 'breadcrumbs_on_rails', '~> 4.1'
