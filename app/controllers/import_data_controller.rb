@@ -3,12 +3,18 @@ class ImportDataController < ApplicationController
 
   # https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks
   def create
-    if !verify_webhook(request.headers, request.raw_post)
+    if verify_webhook(request.headers, request.raw_post)
+      modified_files = request.raw_post["head_commit"]["modified"]
+
+      import_countries if modified_files.include?('countries.json')
+      import_private_companies if modified_files.include?('private_companies.json')
+      import_public_companies if modified_files.include?('public_companies.json')
+    else
       render json: {error: "Unauthorized"}, status: :unauthorized
-      return
+      render status: :forbidden, json: { error: 'Invalid webhook signature' }
     end
 
-    import_data
+    render json: { success: true }
   end
 
 private
@@ -22,9 +28,15 @@ private
     Rails.application.credentials.github[:webhook_secret]
   end
 
-  def import_data
-    system("rake import:countries")
-    system("rake import:private_companies")
-    system("rake import:public_companies")
+  def import_countries
+    ImportDataJob.perform_now("countries.json")
+  end
+
+  def import_private_companies
+    ImportDataJob.perform_now("private_companies.json")
+  end
+
+  def import_public_companies
+    ImportDataJob.perform_now("public_companies.json")
   end
 end
