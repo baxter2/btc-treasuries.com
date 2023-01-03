@@ -20,6 +20,10 @@ class Treasuries::CountriesController < ApplicationController
     @country = Country.find_by_permalink(params[:permalink])
     @transactions = @country.transactions
     @chart_data = Treasuries::ChartDataQuery.new(@transactions).group_by_individual
+    @total_purchases = Treasuries::BtcStatisticsQuery.new(@transactions).total_purchases
+    @total_sell_offs = Treasuries::BtcStatisticsQuery.new(@transactions).total_sell_offs
+    @total_btc = Treasuries::BtcStatisticsQuery.new(@transactions).total_btc
+    @total_percent_of_supply = Treasuries::BtcStatisticsQuery.new(@transactions).total_percent_of_supply
 
     country = %Q(
       <li class="flex">
