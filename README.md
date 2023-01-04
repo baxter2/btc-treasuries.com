@@ -1,24 +1,47 @@
-# README
+## btc-treasuries.com
+Welcome to the btc-treasuries.com repository! This is a Rails application that helps you keep track of BTC transactions by countries, private companies, and public companies. The data for this application is stored in the [data-btc-treasuries.com repository](https://github.com/baxter2/data-btc-treasuries.com), which is a collection of JSON files that can be easily modified by anyone who wants to contribute.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Development
 
-Things you may want to cover:
+<details><summary markdown="span">postgresql</summary>
 
-* Ruby version
+<pre><code>
+<b>$ brew install postgresql</b>
 
-* System dependencies
+<b>$ brew services start postgresql</b>
+</pre></code>
 
-* Configuration
+</details>
 
-* Database creation
+<details><summary markdown="span">redis</summary>
 
-* Database initialization
+<pre><code>
+<b>$ brew install redis</b>
 
-* How to run the test suite
+<b>$ brew services start redis</b>
+</pre></code>
 
-* Services (job queues, cache servers, search engines, etc.)
+</details>
 
-* Deployment instructions
+```
+$ git clone git@github.com:baxter2/btc-treasuries.com.git
 
-* ...
+$ cd btc-treasuries.com
+
+$ bundle install
+
+$ rails db:create
+
+$ rails db:migrate
+
+$ rails import:countries
+$ rails import:private_companies
+$ rails import:public_companies
+
+$ ./bin/dev
+```
+
+## Contributing
+We encourage you to contribute to this project in whatever way you like!
+
+If you have ideas for new features or improvements for the application, feel free to open an issue or create a pull request. If you find any bugs in the application, please report them by opening an issue as well.
